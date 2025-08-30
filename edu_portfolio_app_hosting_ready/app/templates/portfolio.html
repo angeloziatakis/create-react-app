@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Portfolio</h2>
+<div class="card">
+  <table class="table">
+    <thead><tr><th>ID</th><th>Assignment</th><th>Status</th><th>Teacher Feedback</th><th>File</th></tr></thead>
+    <tbody>
+      {% for a in assignments %}
+      <tr>
+        <td>{{ a.id }}</td>
+        <td>{{ a.original_name }}</td>
+        <td>{{ a.status }}</td>
+        <td>{{ a.teacher_feedback or '-' }}</td>
+        <td><a href="/uploads/{{ a.filename }}" target="_blank">Open</a></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5">No items yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

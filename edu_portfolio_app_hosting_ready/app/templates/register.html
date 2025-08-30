@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Register (Demo)</h2>
+<div class="card">
+  <form method="post" action="/register">
+    <label>Email</label>
+    <input class="input" type="email" name="email" required>
+    <label>Password</label>
+    <input class="input" type="password" name="password" required>
+    <label>Role</label>
+    <select name="role">
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
+    <div style="margin-top:10px">
+      <button class="btn" type="submit">Create Account</button>
+    </div>
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+  </form>
+</div>
+{% endblock %}

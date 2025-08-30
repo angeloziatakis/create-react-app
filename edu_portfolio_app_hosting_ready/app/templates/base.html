@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ title if title else "Educational Portfolio App" }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><a href="/">EduPortfolio</a></div>
+    {% if user %}
+    <nav>
+      {% if user.role == 'student' %}
+        <a href="/student/dashboard">Dashboard</a>
+        <a href="/portfolio">Portfolio</a>
+      {% else %}
+        <a href="/teacher/dashboard">Dashboard</a>
+      {% endif %}
+      <a class="logout" href="/logout">Logout</a>
+    </nav>
+    {% endif %}
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">Phase 1 Demo • FastAPI</footer>
+</body>
+</html>

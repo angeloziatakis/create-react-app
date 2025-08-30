@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Student Dashboard</h2>
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Upload Assignment</h3>
+    <form action="/student/upload" method="post" enctype="multipart/form-data">
+      <input class="input" type="file" name="file" required>
+      <div style="margin-top:10px"><button class="btn" type="submit">Upload</button></div>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Filters</h3>
+    <form method="get" action="/student/dashboard">
+      <label>Search filename</label>
+      <input class="input" type="text" name="q" value="{{ q }}">
+      <label>Status</label>
+      <select name="status">
+        <option value="">Any</option>
+        <option value="submitted" {% if status=='submitted' %}selected{% endif %}>Submitted</option>
+        <option value="reviewed" {% if status=='reviewed' %}selected{% endif %}>Reviewed</option>
+        <option value="returned" {% if status=='returned' %}selected{% endif %}>Returned</option>
+      </select>
+      <div style="margin-top:10px"><button class="btn" type="submit">Apply</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Your Assignments</h3>
+  <table class="table">
+    <thead><tr><th>ID</th><th>Name</th><th>Uploaded</th><th>Status</th><th>File</th></tr></thead>
+    <tbody>
+      {% for a in assignments %}
+      <tr>
+        <td>{{ a.id }}</td>
+        <td>{{ a.original_name }}</td>
+        <td>{{ a.uploaded_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td><span class="badge">{{ a.status }}</span></td>
+        <td><a href="/uploads/{{ a.filename }}" target="_blank">Open</a></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5">No assignments yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

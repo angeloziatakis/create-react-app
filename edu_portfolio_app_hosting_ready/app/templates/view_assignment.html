@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Assignment #{{ a.id }}</h2>
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Submission</h3>
+    <p><strong>Student:</strong> {{ a.student.email }}</p>
+    <p><strong>Uploaded:</strong> {{ a.uploaded_at.strftime('%Y-%m-%d %H:%M') }}</p>
+    <p><a class="btn" href="/uploads/{{ a.filename }}" target="_blank">Open File</a></p>
+  </div>
+  <div class="card">
+    <h3>AI Pre-check (Teacher Only)</h3>
+    {% if ai_report %}
+      <pre style="white-space: pre-wrap">{{ ai_report | tojson(indent=2) }}</pre>
+    {% else %}
+      <p>No report.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card">
+  <h3>Add Feedback</h3>
+  <form method="post" action="/teacher/assignment/{{ a.id }}/feedback">
+    <label>Status</label>
+    <select name="status">
+      <option value="reviewed" {% if a.status=='reviewed' %}selected{% endif %}>Reviewed</option>
+      <option value="returned" {% if a.status=='returned' %}selected{% endif %}>Returned</option>
+      <option value="submitted" {% if a.status=='submitted' %}selected{% endif %}>Submitted</option>
+    </select>
+    <label>Feedback</label>
+    <textarea class="input" name="feedback" rows="5">{{ a.teacher_feedback or '' }}</textarea>
+    <div style="margin-top:10px"><button class="btn" type="submit">Save</button></div>
+  </form>
+</div>
+{% endblock %}

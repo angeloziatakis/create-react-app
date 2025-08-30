@@ -1,0 +1,30 @@
+# fly.toml app configuration file
+app = "edu-portfolio-app"
+primary_region = "ams"
+
+[build]
+  builder = "paketobuildpacks/builder:base"
+
+[env]
+  SESSION_SECRET = "change-me-in-prod"
+
+[[services]]
+  http_checks = []
+  internal_port = 8000
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+  
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "1m"
+    restart_limit = 0
